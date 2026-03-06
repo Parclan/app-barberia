@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { Sequelize, DataTypes } = require('sequelize');
 require('dotenv').config();
 
 const app = express();
@@ -10,42 +11,97 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// In-memory "database" for demonstration
-const appointments = [];
+// MariaDB/MySQL Connection using Sequelize
+const sequelize = new Sequelize(
+    process.env.DB_NAME || 'barberia',
+    process.env.DB_USER || 'root',
+    process.env.DB_PASSWORD || '',
+    {
+        host: process.env.DB_HOST || 'localhost',
+        dialect: 'mysql', // MariaDB use the mysql dialect
+        logging: false
+    }
+);
 
-// Routes
-app.get('/api/appointments', (req, res) => {
-    res.json(appointments);
+// Appointment Model
+const Appointment = sequelize.define('Appointment', {
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    service: {
+        type: DataTypes.STRING,
+        allowNull: true // Permitiendo null ya que el form parece haber cambiado
+    },
+    barber: {
+        type: DataTypes.STRING,
+        allowNull: true // Permitiendo null ya que el form parece haber cambiado
+    },
+    date: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    time: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    notes: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    }
 });
 
-app.post('/api/appointments', (req, res) => {
-    const { name, phone, service, barber, date, time, notes } = req.body;
+// Sync Database
+sequelize.sync()
+    .then(() => console.log('✅ Conectado a MariaDB y tablas sincronizadas'))
+    .catch(err => console.error('❌ Error al conectar a MariaDB:', err));
 
-    // Basic validation
-    if (!name || !phone || !service || !barber || !date || !time) {
-        return res.status(400).json({ error: 'Faltan campos obligatorios' });
+// Routes
+app.get('/api/appointments', async (req, res) => {
+    try {
+        const appointments = await Appointment.findAll({
+            order: [['date', 'ASC'], ['time', 'ASC']]
+        });
+        res.json(appointments);
+    } catch (error) {
+        console.error('Error al obtener citas:', error);
+        res.status(500).json({ error: 'Error al obtener las citas' });
     }
+});
 
-    const newAppointment = {
-        id: appointments.length + 1,
-        name,
-        phone,
-        service,
-        barber,
-        date,
-        time,
-        notes,
-        createdAt: new Date().toISOString()
-    };
+app.post('/api/appointments', async (req, res) => {
+    try {
+        const { name, phone, service, barber, date, time, notes } = req.body;
 
-    appointments.push(newAppointment);
+        // Basic validation
+        if (!name || !phone || !date || !time) {
+            return res.status(400).json({ error: 'Faltan campos obligatorios' });
+        }
 
-    console.log('✅ Nueva cita agendada:', newAppointment);
+        const newAppointment = await Appointment.create({
+            name,
+            phone,
+            service,
+            barber,
+            date,
+            time,
+            notes
+        });
 
-    res.status(201).json({
-        message: 'Cita agendada con éxito',
-        appointment: newAppointment
-    });
+        console.log('✅ Nueva cita agendada en MariaDB:', newAppointment.toJSON());
+
+        res.status(201).json({
+            message: 'Cita agendada con éxito',
+            appointment: newAppointment
+        });
+    } catch (error) {
+        console.error('Error al guardar cita en MariaDB:', error);
+        res.status(500).json({ error: 'Error al agendar la cita en la base de datos' });
+    }
 });
 
 // Start server

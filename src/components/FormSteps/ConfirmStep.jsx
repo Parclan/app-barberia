@@ -1,19 +1,12 @@
 import React from 'react';
 import { Star } from "@phosphor-icons/react";
-import { services, barbers } from '../../data/barbershopData';
 
 const ConfirmStep = ({ form }) => {
-    const selectedService = services.find(s => s.id === form.service);
-    const selectedBarber = barbers.find(b => b.id === form.barber);
-
     const summaryData = [
         ["Cliente", form.name],
         ["Teléfono", form.phone],
-        ["Servicio", selectedService ? `${selectedService.label} — ${selectedService.price}` : ""],
-        ["Barbero", selectedBarber?.name],
         ["Fecha", form.date],
         ["Hora", form.time],
-        ...(form.notes ? [["Notas", form.notes]] : []),
     ];
 
     return (
@@ -36,13 +29,6 @@ const ConfirmStep = ({ form }) => {
                     ))}
                 </div>
             </div>
-
-            {selectedService && (
-                <div className="bg-[#1a1507] rounded-xl px-4 py-3 border border-[#2a1f00] flex justify-between items-center">
-                    <span className="text-[#a08030] text-[13px]">Duración estimada</span>
-                    <span className="text-[#c9a84c] font-bold text-sm">{selectedService.duration}</span>
-                </div>
-            )}
         </div>
     );
 };

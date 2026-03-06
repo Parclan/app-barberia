@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Scissors } from "@phosphor-icons/react";
 import PersonalInfoStep from "./FormSteps/PersonalInfoStep";
-import ServiceBarberStep from "./FormSteps/ServiceBarberStep";
 import DateTimeStep from "./FormSteps/DateTimeStep";
 import ConfirmStep from "./FormSteps/ConfirmStep";
 import SuccessScreen from "./SuccessScreen";
+import logo from "../assets/logo.jpg";
 
 const BarbershopForm = () => {
     const [step, setStep] = useState(1);
@@ -12,11 +11,8 @@ const BarbershopForm = () => {
     const [form, setForm] = useState({
         name: "",
         phone: "",
-        service: "",
-        barber: "",
-        date: "",
+        date: new Date().toISOString().split("T")[0],
         time: "",
-        notes: "",
     });
     const [errors, setErrors] = useState({});
 
@@ -32,10 +28,6 @@ const BarbershopForm = () => {
             if (!form.phone.trim()) newErrors.phone = "Ingresa tu teléfono";
         }
         if (step === 2) {
-            if (!form.service) newErrors.service = "Selecciona un servicio";
-            if (!form.barber) newErrors.barber = "Selecciona un barbero";
-        }
-        if (step === 3) {
             if (!form.date) newErrors.date = "Selecciona una fecha";
             if (!form.time) newErrors.time = "Selecciona una hora";
         }
@@ -78,15 +70,12 @@ const BarbershopForm = () => {
         setForm({
             name: "",
             phone: "",
-            service: "",
-            barber: "",
-            date: "",
+            date: new Date().toISOString().split("T")[0],
             time: "",
-            notes: "",
         });
     };
 
-    const stepLabels = ["Tus datos", "Servicio", "Fecha & Hora", "Confirmar"];
+    const stepLabels = ["Tus datos", "Fecha & Hora", "Confirmar"];
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#0d0d0d]">
@@ -94,16 +83,11 @@ const BarbershopForm = () => {
                 {/* Header */}
                 <div className="text-center mb-8 fade-up">
                     <div className="flex items-center justify-center gap-2 mb-1 text-[#c9a84c]">
-                        <Scissors size={20} />
-                        <span className="text-[11px] tracking-[0.3em] uppercase">Est. 2010</span>
-                        <Scissors size={20} />
+                        <img src={logo} alt="Logo" className="w-20 h-20 rounded-full mb-4" />
                     </div>
                     <h1 className="font-display text-[36px] font-black text-[#f5f0e8] leading-tight m-0">
-                        The Cut
+                        Barber Lucho
                     </h1>
-                    <p className="font-display italic text-[#666] text-[15px] mt-1">
-                        Barbería de Caballeros
-                    </p>
                 </div>
 
                 {/* Card */}
@@ -140,9 +124,8 @@ const BarbershopForm = () => {
 
                             {/* Steps */}
                             {step === 1 && <PersonalInfoStep form={form} update={update} errors={errors} />}
-                            {step === 2 && <ServiceBarberStep form={form} update={update} errors={errors} />}
-                            {step === 3 && <DateTimeStep form={form} update={update} errors={errors} />}
-                            {step === 4 && <ConfirmStep form={form} />}
+                            {step === 2 && <DateTimeStep form={form} update={update} errors={errors} />}
+                            {step === 3 && <ConfirmStep form={form} />}
 
                             {/* Navigation */}
                             <div className="flex gap-2.5 mt-7">
@@ -169,7 +152,7 @@ const BarbershopForm = () => {
 
                 {/* Footer */}
                 <p className="text-center mt-6 text-[#333] text-xs">
-                    📍 Barranquilla, Colombia · Lun–Sáb 9AM–7PM
+                    📍 Barranquilla, Colombia · Lun–Sáb 8AM–7PM
                 </p>
             </div>
         </div>

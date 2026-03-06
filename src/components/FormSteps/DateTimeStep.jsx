@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Note } from "@phosphor-icons/react";
+import { Calendar } from "@phosphor-icons/react";
 import { timeSlots } from '../../data/barbershopData';
 
 const DateTimeStep = ({ form, update, errors }) => {
@@ -45,24 +45,6 @@ const DateTimeStep = ({ form, update, errors }) => {
                     ))}
                 </div>
                 {errors.time && <p className="text-[#c0392b] text-xs mt-2">{errors.time}</p>}
-            </div>
-
-            <div className="mt-5">
-                <label className="block text-[11px] tracking-[0.1em] uppercase text-[#666] mb-2">
-                    Notas adicionales (opcional)
-                </label>
-                <div className="relative">
-                    <div className="absolute left-[14px] top-[14px] text-[#444]">
-                        <Note size={20} />
-                    </div>
-                    <textarea
-                        value={form.notes}
-                        onChange={e => update("notes", e.target.value)}
-                        placeholder="Ej: quiero el corte con mucho volumen arriba..."
-                        rows={3}
-                        className="w-full pl-[46px] pr-4 py-[14px] bg-[#161616] border border-[#252525] rounded-xl color-[#f5f0e8] text-[13px] outline-none resize-none"
-                    />
-                </div>
             </div>
         </div>
     );

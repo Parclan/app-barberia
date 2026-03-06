@@ -1,15 +1,9 @@
 import React from 'react';
 import { CheckCircle } from "@phosphor-icons/react";
-import { services, barbers } from '../data/barbershopData';
 
 const SuccessScreen = ({ form, onReset }) => {
-    const selectedService = services.find(s => s.id === form.service);
-    const selectedBarber = barbers.find(b => b.id === form.barber);
-
     const confirmationDetails = [
         ["Cliente", form.name],
-        ["Servicio", selectedService?.label],
-        ["Barbero", selectedBarber?.name],
         ["Fecha", form.date],
         ["Hora", form.time],
     ];
