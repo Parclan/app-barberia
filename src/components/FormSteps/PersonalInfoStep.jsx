@@ -20,7 +20,7 @@ const PersonalInfoStep = ({ form, update, errors }) => {
                         value={form.name}
                         onChange={e => update("name", e.target.value)}
                         placeholder="Tu nombre"
-                        className={`w-full pl-[46px] pr-4 py-[14px] bg-[#161616] border rounded-f12 color-[#f5f0e8] text-sm outline-none transition-all ${errors.name ? "border-[#c0392b]" : "border-[#252525]"
+                        className={`w-full pl-[46px] pr-4 py-[14px] bg-[#161616] border rounded-xl color-[#f5f0e8] text-sm outline-none transition-all ${errors.name ? "border-[#c0392b]" : "border-[#252525]"
                             }`}
                     />
                 </div>
@@ -40,7 +40,7 @@ const PersonalInfoStep = ({ form, update, errors }) => {
                         value={form.phone}
                         onChange={e => update("phone", e.target.value)}
                         placeholder="+57 300 000 0000"
-                        className={`w-full pl-[46px] pr-4 py-[14px] bg-[#161616] border rounded-f12 color-[#f5f0e8] text-sm outline-none transition-all ${errors.phone ? "border-[#c0392b]" : "border-[#252525]"
+                        className={`w-full pl-[46px] pr-4 py-[14px] bg-[#161616] border rounded-xl color-[#f5f0e8] text-sm outline-none transition-all ${errors.phone ? "border-[#c0392b]" : "border-[#252525]"
                             }`}
                     />
                 </div>

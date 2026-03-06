@@ -85,13 +85,13 @@ const BarbershopForm = () => {
                     <div className="flex items-center justify-center gap-2 mb-1 text-[#c9a84c]">
                         <img src={logo} alt="Logo" className="w-20 h-20 rounded-full mb-4" />
                     </div>
-                    <h1 className="font-display text-[36px] font-black text-[#f5f0e8] leading-tight m-0">
+                    <h1 className="font-display text-[28px] sm:text-[36px] font-black text-[#f5f0e8] leading-tight m-0">
                         Barber Lucho
                     </h1>
                 </div>
 
                 {/* Card */}
-                <div className="bg-[#111] rounded-[32px] p-7 fade-up border border-[#222] shadow-[0_40px_80px_rgba(0,0,0,0.7)]">
+                <div className="bg-[#111] rounded-[24px] sm:rounded-[32px] p-5 sm:p-7 fade-up border border-[#222] shadow-[0_40px_80px_rgba(0,0,0,0.7)]">
                     {!submitted ? (
                         <>
                             {/* Progress */}

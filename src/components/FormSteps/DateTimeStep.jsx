@@ -32,7 +32,7 @@ const DateTimeStep = ({ form, update, errors }) => {
                 <label className="block text-[11px] tracking-[0.1em] uppercase text-[#666] mb-2.5">
                     Hora disponible
                 </label>
-                <div className="grid grid-cols-4 gap-1.5">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
                     {timeSlots.map(t => (
                         <button
                             key={t}
