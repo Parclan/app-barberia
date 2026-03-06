@@ -19,9 +19,9 @@ const DateTimeStep = ({ form, update, errors }) => {
                     <input
                         type="date"
                         value={form.date}
-                        min={new Date().toISOString().split("T")[0]}
+                        min={new Date().toLocaleDateString('sv-SE')}
                         onChange={e => update("date", e.target.value)}
-                        className={`w-full pl-[46px] pr-4 py-[14px] bg-[#161616] border rounded-xl color-[#f5f0e8] text-sm outline-none transition-all ${errors.date ? "border-[#c0392b]" : "border-[#252525]"
+                        className={`w-full h-[54px] pl-[46px] pr-4 py-[14px] bg-[#161616] border rounded-xl text-[#f5f0e8] text-sm outline-none transition-all appearance-none ${errors.date ? "border-[#c0392b]" : "border-[#252525]"
                             }`}
                     />
                 </div>
