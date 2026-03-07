@@ -13,11 +13,11 @@ app.use(bodyParser.json());
 
 // MariaDB/MySQL Connection using Sequelize
 const sequelize = new Sequelize(
-    process.env.DB_NAME || 'barberia',
-    process.env.DB_USER || 'root',
-    process.env.DB_PASSWORD || '',
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
     {
-        host: process.env.DB_HOST || 'localhost',
+        host: process.env.DB_HOST,
         dialect: 'mysql', // MariaDB use the mysql dialect
         logging: false
     }
@@ -53,6 +53,27 @@ const Appointment = sequelize.define('Appointment', {
         type: DataTypes.TEXT,
         allowNull: true
     }
+});
+
+// Admin (Login) Model
+const Admin = sequelize.define('login', {
+    username: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+    },
+    password: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    estado: {
+        type: DataTypes.TINYINT,
+        defaultValue: 1
+    }
+}, {
+    // Explicitly define table name matching the screenshot
+    tableName: 'login',
+    // Disable timestamps if the table doesn't have createdAt/updatedAt
+    timestamps: false
 });
 
 // Sync Database
@@ -101,6 +122,42 @@ app.post('/api/appointments', async (req, res) => {
     } catch (error) {
         console.error('Error al guardar cita en MariaDB:', error);
         res.status(500).json({ error: 'Error al agendar la cita en la base de datos' });
+    }
+});
+
+// Admin Login Endpoint
+app.post('/api/admin/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        if (!username || !password) {
+            return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
+        }
+
+        // Buscar el usuario que coincida y que esté activo (estado = 1)
+        const admin = await Admin.findOne({
+            where: {
+                username: username,
+                password: password,
+                estado: 1
+            }
+        });
+
+        if (admin) {
+            console.log(`✅ Login exitoso para el usuario: ${username}`);
+            // En un futuro, aquí generarías y devolverías un token JWT
+            res.json({
+                message: 'Login exitoso',
+                token: 'fake-jwt-token-para-desarrollo'
+            });
+        } else {
+            console.warn(`❌ Intento de login fallido para el usuario: ${username}`);
+            res.status(401).json({ error: 'Credenciales incorrectas o usuario inactivo' });
+        }
+
+    } catch (error) {
+        console.error('Error en el login:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 

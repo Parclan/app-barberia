@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { User, LockKey, ArrowLeft } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
+import { sileo } from "sileo";
 import logo from "../../assets/logo.jpg";
 
 const AdminLogin = () => {
@@ -10,12 +11,10 @@ const AdminLogin = () => {
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [loginMessage, setLoginMessage] = useState("");
 
     const update = (field, value) => {
         setForm((prev) => ({ ...prev, [field]: value }));
         setErrors((prev) => ({ ...prev, [field]: "" }));
-        setLoginMessage("");
     };
 
     const validate = () => {
@@ -40,16 +39,16 @@ const AdminLogin = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    setLoginMessage("✅ Login exitoso. Redirigiendo...");
+                    sileo.success({ title: "Login exitoso", description: "Redirigiendo...", duration: 2000 });
                     // Aquí puedes guardar el token y redirigir
                     // localStorage.setItem("token", data.token);
                     // window.location.href = "/admin/dashboard";
                 } else {
-                    setLoginMessage("❌ Credenciales incorrectas");
+                    sileo.error({ title: "Acceso denegado", description: "Credenciales incorrectas", duration: 2000 });
                 }
             } catch (error) {
                 console.error("Error:", error);
-                setLoginMessage("❌ Error de conexión con el servidor");
+                sileo.error({ title: "Error", description: "Error de conexión con el servidor" });
             } finally {
                 setLoading(false);
             }
@@ -120,12 +119,6 @@ const AdminLogin = () => {
                                 </div>
                                 {errors.password && <p className="text-[#c0392b] text-xs mt-1">{errors.password}</p>}
                             </div>
-
-                            {loginMessage && (
-                                <p className={`text-sm mt-3 ${loginMessage.includes("✅") ? "text-[#2ecc71]" : "text-[#c0392b]"}`}>
-                                    {loginMessage}
-                                </p>
-                            )}
 
                             <div className="mt-8 pt-2">
                                 <button
