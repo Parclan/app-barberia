@@ -82,11 +82,11 @@ const BarbershopForm = () => {
             <div className="w-full max-w-[480px]">
                 {/* Header */}
                 <div className="text-center mb-8 fade-up">
-                    <div className="flex items-center justify-center gap-2 mb-1 text-[#c9a84c]">
-                        <img src={logo} alt="Logo" className="w-20 h-20 rounded-full mb-4" />
+                    <div className="flex items-center justify-center gap-2 mb-1 ">
+                        <img src={logo} alt="Logo" className="w-20 h-20 rounded-full mb-4 border-4 border-[#c9a84c]" />
                     </div>
                     <h1 className="font-display text-[28px] sm:text-[36px] font-black text-[#f5f0e8] leading-tight m-0">
-                        Barber Lucho
+                        Barber <span className="text-[#c9a84c]">Lucho</span>
                     </h1>
                 </div>
 

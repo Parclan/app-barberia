@@ -1,11 +1,19 @@
 import React from 'react';
-import { User, Phone } from "@phosphor-icons/react";
+import { User, Phone, LockKey } from "@phosphor-icons/react";
+import { Link } from 'react-router-dom';
 
 const PersonalInfoStep = ({ form, update, errors }) => {
     return (
         <div className="fade-up space-y-5">
-            <h2 className="font-display text-2xl text-[#f5f0e8] m-0">¿Quién eres?</h2>
-            <p className="text-[#555] text-[13px] mt-1">Cuéntanos un poco sobre ti para tu reservación.</p>
+            <div className="flex justify-between items-start">
+                <div>
+                    <h2 className="font-display text-2xl text-[#f5f0e8] m-0">¿Quién eres?</h2>
+                    <p className="text-[#555] text-[13px] mt-1">Cuéntanos un poco sobre ti para tu reservación.</p>
+                </div>
+                <Link to="/admin" className="text-[#c9a84c] opacity-50 hover:opacity-100 transition-opacity flex items-center p-1" title="Acceso de Administrador">
+                    <LockKey size={20} weight="bold" />
+                </Link>
+            </div>
 
             <div>
                 <label className="block text-[11px] tracking-[0.1em] uppercase text-[#666] mb-2">
